@@ -1,7 +1,26 @@
+@import "~bootswatch/dist/yeti/variables"; // Import yeti variables (bootswatch)
+@import "~bootstrap/scss/bootstrap"; // Import bootstrap style
+@import "~bootswatch/dist/yeti/bootswatch"; // Import yeti (bootswatch)
+
+/* ___Variables___ */
+
+// colors
+$colorBestBlue : #0ea2f8;
+$colorBackGroundLightGray: #ebebeb;
+$colorLightBlackText: #2c2c2c;
+
+// Utilis
+$fontSize : 19px;
+
 body {
-    background-color: rgb(235, 235, 235);
+    // background-color: $pink;
 }
 
 h1{
-    color: rgb(14, 162, 248);
+    color: $colorBestBlue;
+}
+
+p{
+    color: $colorLightBlackText;
+    font-size: $fontSize;
 }
