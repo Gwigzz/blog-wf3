@@ -14,9 +14,7 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(): Response
     {
-        return $this->render('main/main.html.twig', [
-            'controller_name' => 'Main',
-        ]);
+        return $this->render('main/main.html.twig', []);
     }
 
     /**
@@ -25,8 +23,6 @@ class MainController extends AbstractController
     #[Route('/contact', name: 'app_contact')]
     public function contact(): Response
     {
-        return $this->render('main/contact.html.twig', [
-            'controller_name' => 'Contact'
-        ]);
+        return $this->render('main/contact.html.twig', []);
     }
 }

@@ -59,7 +59,7 @@ Encore
     .enableSassLoader() // Activer pour installer le ".scss"
 
     // Activer post CSS loader
-    .enablePostCssLoader();
+    .enablePostCssLoader()
 
 // uncomment if you use TypeScript
 //.enableTypeScriptLoader()
@@ -71,8 +71,7 @@ Encore
 // requires WebpackEncoreBundle 1.4 or higher
 //.enableIntegrityHashes(Encore.isProduction())
 
-// uncomment if you're having problems with a jQuery plugin
-//.autoProvidejQuery()
-;
+    // uncomment if you're having problems with a jQuery plugin
+    .autoProvidejQuery()
 
-module.exports = Encore.getWebpackConfig();
+module.exports = Encore.getWebpackConfig()
