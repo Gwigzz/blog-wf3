@@ -56,7 +56,7 @@ Encore
     })
 
     // enables Sass/SCSS support
-    //.enableSassLoader()
+    .enableSassLoader() // Activer pour installer le ".scss"
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
