@@ -4,9 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
-    {# <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> #}
-    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 
     {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
@@ -19,18 +16,25 @@
 
 <body>
 
+    <!-- Header -->
     <header>
         <!-- Nav -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            {% include '_includes/base.nav.html.twig' %}
+            {% include '_includes/_base.nav.html.twig' %}
         </nav>
     </header>
 
-    <main class="container mt-4">
-        {% block body %}{% endblock %}
+    <!-- Main -->
+    <main class="container mt-4 mb-4">
+        <div class="content-main">
+            {% block body %}{% endblock %}
+        </div>
     </main>
 
-    <footer></footer>
+    <!-- Footer -->
+    <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-light">
+        {% include '_includes/_base.footer.html.twig' %}
+    </footer>
 
 </body>
 
