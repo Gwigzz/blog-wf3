@@ -14,6 +14,9 @@ const $ = require('jquery');
 // Import JS (chargement de la partie JS)
 require('bootstrap');
 
+// Import font awesome
+require('@fortawesome/fontawesome-free/js/all.js');
+
 $(document).ready(function () {
 
     $('#test').on('mouseover', function () {
