@@ -7,11 +7,18 @@
 <div>
     <h1>Mes articles</h1>
 
-    <!-- Content -->
+    <!-- Content article -->
+
     <div>
         {% for article in articles %}
+
+        <div class="bg-light m-1 p-2 card w-50 d-inline-block">
             <p>titre :{{ article.title }}</p>
             <p>Contenue :{{ article.content }}</p>
+
+            <p>Date {{ article.createdAt|date('m/d/Y') }}</p>
+        </div>
+
         {% endfor %}
     </div>
 

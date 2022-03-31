@@ -39,15 +39,15 @@ class MainController extends AbstractController
     #[Route('/blog', name: 'blog')]
     public function blog(PostRepository $postRepository)
     {
+        $showAllArticle = $postRepository->findAll();
 
-        $articles = $postRepository->findAll();
-
-        
+        // Recherche du contenue depuis l'entité par le "repository"
+        // $article = $postRepository->findOneByContent('dsf');
 
         return $this->render(
             'main/blog.html.twig',
             [
-                'articles' => $articles
+                'articles' => $showAllArticle,
             ]
         );
     }
@@ -83,9 +83,8 @@ class MainController extends AbstractController
             // $entityManager->flush();
 
             // Retourne la réponse si "submit" & "valide"
-            return $this->redirectToRoute('app_main_new_post');
+            return $this->redirectToRoute('app_main_blog');
         }
-
 
 
         return $this->renderForm(
