@@ -22,10 +22,16 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             {% include '_includes/_base.nav.html.twig' %}
         </nav>
+
+        <!-- message flash -->
+        <div id="messages" class="text-center m-auto">
+            {% include '_includes/_base.messages.html.twig' %}
+        </div>
     </header>
 
     <!-- Main -->
     <main class="container mt-4 mb-4">
+        <!-- Content -->
         <div class="content-main">
             {% block body %}{% endblock %}
         </div>

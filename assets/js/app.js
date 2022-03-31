@@ -17,10 +17,17 @@ require('bootstrap');
 // Import font awesome
 require('@fortawesome/fontawesome-free/js/all.js');
 
+// Document is Load, start JQuery
 $(document).ready(function () {
 
     $('#test').on('mouseover', function () {
         $(this).css('color', 'red');
     });
+
+    if ($('div.alert')) {
+        $('div.alert').delay(4000).fadeOut(350, function () {
+            $('div.alert').remove();
+        });
+    }
 
 });

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+
+<div>
+    <h1>Mes articles</h1>
+
+    <!-- Content -->
+    <div>
+        {% for article in articles %}
+            <p>titre :{{ article.title }}</p>
+            <p>Contenue :{{ article.content }}</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
