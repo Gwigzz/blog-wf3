@@ -32,13 +32,16 @@
         <ul class="navbar-nav">
             {% if app.user %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_main_logout') }}">Déconnexion</a>
+                    <a class="nav-link" href="{{ path('app_main_logout') }}">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Déconnexion
+                    </a>
                 </li>
             {% else %}
                 <li class="nav-item">
                     <a href="{{ path('app_main_login') }}" class="nav-link">
-                        <i class="fa-solid fa-right-to-bracket"></i>
                         Connexion
+                        <i class="fa-solid fa-right-to-bracket"></i>
                     </a>
                 </li>
             {% endif %}
