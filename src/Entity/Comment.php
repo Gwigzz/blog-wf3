@@ -39,7 +39,7 @@ class Comment
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    /*     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -61,5 +61,27 @@ class Comment
         $this->updatedAt = $updatedAt;
 
         return $this;
+    } */
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    #[ORM\PrePersist] # Vérifie si existe ou pas
+    public function setCreatedAt()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    #[ORM\PreUpdate] # Déclanche uniquement quand il a besoin
+    public function setUpdatedAt()
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }
