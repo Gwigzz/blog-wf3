@@ -8,11 +8,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Title</th>
+            <th>ID</th>
+            <th>Titre</th>
             <th>Content</th>
-            <th>CreatedAt</th>
-            <th>UpdatedAt</th>
+            <th>Création</th>
+            <th>Modification</th>
             <th>actions</th>
         </tr>
     </thead>
@@ -22,8 +22,8 @@
             <td>{{ post.id }}</td>
             <td>{{ post.title }}</td>
             <td>{{ post.content }}</td>
-            <td>{{ post.createdAt|date('Y-m-d')}}</td>
-            <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d') : '' }}</td>
+            <td>{{ post.createdAt|date('Y-m-d H:i:s')}}</td>
+            <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
                 <div class="m-1">
                     <a href="{{ path('app_blog_show_post', {'slug': post.slug}) }}" class="btn btn-secondary btn-sm">

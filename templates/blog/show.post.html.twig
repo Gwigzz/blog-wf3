@@ -21,11 +21,11 @@
         </tr>
         <tr>
             <th>CreatedAt</th>
-            <td>{{ post.createdAt|date('Y-m-d')}}</td>
+            <td>{{ post.createdAt|date('Y-m-d H:i:s')}}</td>
         </tr>
         <tr>
             <th>UpdatedAt</th>
-            <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d') : 'Jamais modifié' }}</td>
+            <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : 'Jamais modifié' }}</td>
         </tr>
     </tbody>
 </table>

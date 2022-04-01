@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks] # Indique à doctrine pour gérer la date update automatiquement (un genre d'écouteur d'évènement)
 class Post
 {
     #[ORM\Id]
@@ -21,7 +22,7 @@ class Post
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     // #[ORM\Column(length: 128, unique: true)]
-    #[Gedmo\Slug(fields: ['title'])]
+    #[Gedmo\Slug(fields: ['title'])] // Ajouté pour le "slug"
     private $slug;
 
     #[ORM\Column(type: 'text')]
@@ -79,11 +80,10 @@ class Post
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    #[ORM\PrePersist] # Vérifie si existe ou pas
+    public function setCreatedAt()
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
@@ -91,10 +91,9 @@ class Post
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
+    #[ORM\PreUpdate] # Déclanche uniquement quand il a besoin
+    public function setUpdatedAt()
     {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }
