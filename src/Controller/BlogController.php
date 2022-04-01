@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/blog', name: 'app_blog_')]
-class PostController extends AbstractController
+class BlogController extends AbstractController
 {
     /**
      * Page principale

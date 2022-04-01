@@ -31,4 +31,5 @@ npm install --save @fortawesome/fontawesome-free
 ```
 composer require symfony/webpack-encore-bundle
 composer require stof/doctrine-extensions-bundle (Slug)
+composer require symfony/rate-limiter (Limitation de tentatives de connexion)
 ```

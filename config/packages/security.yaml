@@ -29,6 +29,12 @@ security:
             #     secret:   '%kernel.secret%' # required
             #     lifetime: 604800 # 1 week in seconds
 
+            # Configuration du nombre maximum de tentatives 
+            # de connexion échouées sur un temps donné (TODO à modifier avant de passer en prod)
+            login_throttling:
+                max_attempts: 50
+                interval: '50 minutes'
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
