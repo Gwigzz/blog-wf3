@@ -7,11 +7,6 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
-            {#   <li class="nav-item">
-                    <a class="nav-link active" href="#">Home
-                        <span class="visually-hidden">(current)</span>
-                    </a>
-                </li> #}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_main_home') }}">Home</a>
             </li>
@@ -35,12 +30,24 @@
             </li> #}
         </ul>
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#!" class="nav-link">
-                    <i class="fa-solid fa-right-to-bracket"></i>
-                    Connexion
-                </a>
-            </li>
+            {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_main_logout') }}">Déconnexion</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a href="#!" class="nav-link">
+                        <i class="fa-solid fa-check"></i>
+                        Inscription
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('app_main_login') }}" class="nav-link">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Connexion
+                    </a>
+                </li>
+            {% endif %}
         </ul>
         <!-- search -->
         {#      <div class="">
