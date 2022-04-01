@@ -10,16 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/post')]
+#[Route('/blog', name: 'app_blog_')]
 class PostController extends AbstractController
 {
     /**
      * Page principale
      */
-    #[Route('/', name: 'app_post_index', methods: ['GET'])]
-    public function index(PostRepository $postRepository): Response
+    #[Route('/', name: 'index', methods: ['GET'])]
+    public function indexBlog(PostRepository $postRepository): Response
     {
-        return $this->render('post/index.html.twig', [
+        return $this->render('blog/index.html.twig', [
             'posts' => $postRepository->findAll(),
         ]);
     }
@@ -27,8 +27,8 @@ class PostController extends AbstractController
     /**
      * Creer une publication
      */
-    #[Route('/new', name: 'app_post_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PostRepository $postRepository): Response
+    #[Route('/publier', name: 'new_post', methods: ['GET', 'POST'])]
+    public function newPost(Request $request, PostRepository $postRepository): Response
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
@@ -38,12 +38,13 @@ class PostController extends AbstractController
 
             $postRepository->add($post);
 
+            // Flash
             $this->addFlash('success', 'publication Ajouté');
 
-            return $this->redirectToRoute('app_post_index', []);
+            return $this->redirectToRoute('app_blog_index', []);
         }
 
-        return $this->renderForm('post/new.html.twig', [
+        return $this->renderForm('blog/new.post.html.twig', [
             'post' => $post,
             'form' => $form,
         ]);
@@ -52,10 +53,10 @@ class PostController extends AbstractController
     /**
      * Voir une publication
      */
-    #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
+    #[Route('/{id}', name: 'show_post', methods: ['GET'])]
+    public function showPost(Post $post): Response
     {
-        return $this->render('post/show.html.twig', [
+        return $this->render('blog/show.post.html.twig', [
             'post' => $post,
         ]);
     }
@@ -63,8 +64,8 @@ class PostController extends AbstractController
     /**
      * Editer un article
      */
-    #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Post $post, PostRepository $postRepository): Response
+    #[Route('/{id}/modifier-publication', name: 'edit_post', methods: ['GET', 'POST'])]
+    public function editPost(Request $request, Post $post, PostRepository $postRepository): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -73,12 +74,13 @@ class PostController extends AbstractController
 
             $postRepository->add($post);
 
+            // Flash
             $this->addFlash('success', 'publication Modifié');
 
-            return $this->redirectToRoute('app_post_index', []);
+            return $this->redirectToRoute('app_blog_index', []);
         }
 
-        return $this->renderForm('post/edit.html.twig', [
+        return $this->renderForm('blog/edit.post.html.twig', [
             'post' => $post,
             'form' => $form,
         ]);
@@ -87,14 +89,16 @@ class PostController extends AbstractController
     /**
      * Supprésion d'un article
      */
-    #[Route('/{id}', name: 'app_post_delete', methods: ['POST'])]
-    public function delete(Request $request, Post $post, PostRepository $postRepository): Response
+    #[Route('/{id}', name: 'delete_post', methods: ['POST'])]
+    public function deletePost(Request $request, Post $post, PostRepository $postRepository): Response
     {
         if ($this->isCsrfTokenValid('mon_joli_block' . $post->getId(), $request->request->get('_token'))) {
             $postRepository->remove($post);
+
+            // Flash
             $this->addFlash('success', 'publication Supprimé');
         }
 
-        return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
     }
 }

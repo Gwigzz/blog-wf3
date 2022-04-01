@@ -28,10 +28,14 @@
             <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d') : '' }}</td>
             <td>
                 <div class="m-1">
-                    <a href="{{ path('app_post_show', {'id': post.id}) }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-eye"></i></a>
+                    <a href="{{ path('app_blog_show_post', {'id': post.id}) }}" class="btn btn-secondary btn-sm">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
                 </div>
                 <div class="m-1">
-                    <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="{{ path('app_blog_edit_post', {'id': post.id}) }}" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
                 </div>
             </td>
 
@@ -44,5 +48,5 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary btn-sm" href="{{ path('app_post_new') }}">Nouvelle publication</a>
+<a class="btn btn-primary btn-sm" href="{{ path('app_blog_new_post') }}">Nouvelle publication</a>
 {% endblock %}

@@ -9,13 +9,15 @@
 <div>
 
     <div>
-        {{ include('post/_form.html.twig', 
+        {{ include('blog/_form.html.twig', 
         {'button_label': 'Ajouter une publication', 'btn_class': 'btn-primary'}) }}
     </div>
 
     <div class="m-2">
-        <a class="btn btn-secondary btn-sm" href="{{ path('app_post_index') }}"><i class="fa-solid fa-arrow-left"></i>
-            Retour à la liste</a>
+        <a class="btn btn-secondary btn-sm" href="{{ path('app_blog_index') }}">
+            <i class="fa-solid fa-arrow-left"></i>
+            Retour à la liste
+        </a>
     </div>
 
 </div>
