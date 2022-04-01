@@ -1,10 +1,10 @@
 ## Example de project "blog" avec Symfony 6
 
-#### Pour cloner le projet
+### Pour cloner le projet
 
 git clone https://github.com/Gwigzz/blog-wf3.git
 
-##### Installation
+#### Installation
 
 ##### composer install
 symfony console doctrine:database:create
