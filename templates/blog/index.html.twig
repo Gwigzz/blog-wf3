@@ -10,7 +10,6 @@
         <tr>
             <th>Id</th>
             <th>Title</th>
-            <th>Slug</th>
             <th>Content</th>
             <th>CreatedAt</th>
             <th>UpdatedAt</th>
@@ -22,18 +21,17 @@
         <tr>
             <td>{{ post.id }}</td>
             <td>{{ post.title }}</td>
-            <td>{{ post.slug }}</td>
             <td>{{ post.content }}</td>
             <td>{{ post.createdAt|date('Y-m-d')}}</td>
             <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d') : '' }}</td>
             <td>
                 <div class="m-1">
-                    <a href="{{ path('app_blog_show_post', {'id': post.id}) }}" class="btn btn-secondary btn-sm">
+                    <a href="{{ path('app_blog_show_post', {'slug': post.slug}) }}" class="btn btn-secondary btn-sm">
                         <i class="fa-solid fa-eye"></i>
                     </a>
                 </div>
                 <div class="m-1">
-                    <a href="{{ path('app_blog_edit_post', {'id': post.id}) }}" class="btn btn-warning btn-sm">
+                    <a href="{{ path('app_blog_edit_post', {'slug': post.slug}) }}" class="btn btn-warning btn-sm">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                 </div>

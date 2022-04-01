@@ -53,7 +53,7 @@ class PostController extends AbstractController
     /**
      * Voir une publication
      */
-    #[Route('/{id}', name: 'show_post', methods: ['GET'])]
+    #[Route('/{slug}', name: 'show_post', methods: ['GET'])]
     public function showPost(Post $post): Response
     {
         return $this->render('blog/show.post.html.twig', [
@@ -64,7 +64,7 @@ class PostController extends AbstractController
     /**
      * Editer un article
      */
-    #[Route('/{id}/modifier-publication', name: 'edit_post', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/modifier-publication', name: 'edit_post', methods: ['GET', 'POST'])]
     public function editPost(Request $request, Post $post, PostRepository $postRepository): Response
     {
         $form = $this->createForm(PostType::class, $post);

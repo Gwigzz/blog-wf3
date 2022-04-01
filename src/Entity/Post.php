@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+// Import de la logique des slugs
+use Gedmo\Mapping\Annotation as Gedmo;
+
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
@@ -16,7 +19,9 @@ class Post
     #[ORM\Column(type: 'string', length: 100)]
     private $title;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    // #[ORM\Column(length: 128, unique: true)]
+    #[Gedmo\Slug(fields: ['title'])]
     private $slug;
 
     #[ORM\Column(type: 'text')]
@@ -50,12 +55,12 @@ class Post
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+   /*  public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
-    }
+    } */
 
     public function getContent(): ?string
     {

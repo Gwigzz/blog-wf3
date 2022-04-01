@@ -16,10 +16,6 @@
             <td>{{ post.title }}</td>
         </tr>
         <tr>
-            <th>Slug</th>
-            <td>{{ post.slug }}</td>
-        </tr>
-        <tr>
             <th>Content</th>
             <td>{{ post.content }}</td>
         </tr>
@@ -38,7 +34,7 @@
     <div class="d-flex">
         
         <div class="m-1">
-            <a class="btn btn-warning btn-sm" href="{{ path('app_blog_edit_post', {'id': post.id}) }}">Modifier</a>
+            <a class="btn btn-warning btn-sm" href="{{ path('app_blog_edit_post', {'slug': post.slug}) }}">Modifier</a>
         </div>
 
         <div class="m-1">
