@@ -36,6 +36,8 @@ class BlogController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $post->setAuthor($this->getUser());
+
             $postRepository->add($post);
 
             // Flash
