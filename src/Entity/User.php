@@ -233,4 +233,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    // Permet de convertir en "string"
+    public function __toString(): string
+    {
+        return $this->getUsername();
+    }
 }

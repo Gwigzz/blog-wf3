@@ -4,15 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Repository\PostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/blog', name: 'app_blog_')]
 class BlogController extends AbstractController
 {
+
     /**
      * Page principale
      */
@@ -55,11 +59,43 @@ class BlogController extends AbstractController
     /**
      * Voir une publication
      */
-    #[Route('/{slug}', name: 'show_post', methods: ['GET'])]
-    public function showPost(Post $post): Response
+    #[Route('/{slug}', name: 'show_post', methods: ['GET', 'POST'])]
+    public function showPost(Request $request, Post $post, CommentRepository $commentRepository): Response
     {
-        return $this->render('blog/show.post.html.twig', [
+
+        // Si utilisateur n'est pas connecté, 
+        // on envoie directement la vue dans le formulaire
+        // Pour optimiser le fonctionnement & la sécurité
+        if (!$this->getUser()) {
+            return $this->render('blog/show.post.html.twig', [
+                'post' => $post,
+            ]);
+        }
+
+        // Sinom on traite la vue avec le formulaire de commentaire
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // On renseigne les infos du commentaire
+            // (auteur est publication)
+            # Autheur
+            $comment
+                ->setAuthor($this->getUser())
+                ->setPost($post);
+            // add en bdd
+            $commentRepository->add($comment);
+
+            return $this->redirectToRoute('app_blog_show_post', [
+                'slug' => $post->getSlug(),
+            ]);
+        }
+
+        return $this->renderForm('blog/show.post.html.twig', [
             'post' => $post,
+            'form' => $form,
         ]);
     }
 
@@ -84,6 +120,33 @@ class BlogController extends AbstractController
 
         return $this->renderForm('blog/edit.post.html.twig', [
             'post' => $post,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * Laisser un commentaire
+     */
+    #[Route('/new', name: 'app_comment_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, CommentRepository $commentRepository): Response
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // On affecte l'utilisateur connecté comme Auteur de la publication
+            $comment->setAuthor($this->getUser());
+            $commentRepository->add($comment);
+
+            $this->addFlash('success', 'Publication ajoutée');
+
+            return $this->redirectToRoute('app_blog_index');
+        }
+
+        return $this->renderForm('comment/new.html.twig', [
+            'comment' => $comment,
             'form' => $form,
         ]);
     }

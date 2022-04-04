@@ -70,7 +70,7 @@ class Post
         return $this->slug;
     }
 
-   /*  public function setSlug(string $slug): self
+    /*  public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
@@ -151,5 +151,11 @@ class Post
         }
 
         return $this;
+    }
+
+    // Permet de convertir en "string"
+    public function __toString(): string
+    {
+        return $this->getTitle();
     }
 }

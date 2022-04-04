@@ -30,27 +30,86 @@
     </tbody>
 </table>
 
-<div>
-    <div class="d-flex">
+<!-- Commentaire section -->
+<section>
+    <div>
+        <h2 class="h4">Commentaires :
+            <span class="h5">
+                {{ post.comments|length > 0 ? post.comments|length : 'aucun commentaire'}}
+            </span>
+        </h2>
 
-        {% if is_granted('ROLE_ADMIN') %}
-        <div class="m-1">
-            <a class="btn btn-warning btn-sm" href="{{ path('app_blog_edit_post', {'slug': post.slug}) }}">
-                Modifier
+        <div>
+            {% for comment in post.comments %}
+            <div class="card m-1 p-2">
+                <div class="card-body">
+                    <div class="box-content-user-comment">
+                        <div class="box-img-user-comment">
+                            <img src="https://previews.123rf.com/images/fizkes/fizkes2007/fizkes200701872/152319944-.jpg?fj=1" alt="" />
+                        </div>
+                        <div class="box-infos-user-comment">
+                            <span>
+                               par {{ comment.author.username }}
+                            </span>
+                            <span>le :
+                                {{ comment.author.createdAt|date('Y-m-d') }}
+                            </span>
+                        </div>
+                    </div>
+                    <p>{{ comment.content }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {# form add commentary #}
+    <div class="m-2">
+        {% if app.user %}
+        <div>
+            <h3>Laisser un commentaire</h3>
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div>
+                <button type="submit" class="btn btn-success btn-sm">
+                    Ajouter le commentaire
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+        {% else %}
+        <p>
+            <a href="{{ path('app_main_login') }}" class="btn btn-primary btn-sm">
+                Connectez-vous
             </a>
-        </div>
-
-
-        <div class="m-1">
-            {{ include('blog/_delete_form.html.twig') }}
-        </div>
+            pour laisser un commentaire
+        </p>
         {% endif %}
     </div>
 
-    <div class="m-1">
-        <a class="btn btn-secondary btn-sm" href="{{ path('app_blog_index') }}"><i class="fa-solid fa-arrow-left"></i>
-            Retour à la liste</a>
+    <div>
+        <div class="d-flex">
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="m-1">
+                <a class="btn btn-warning btn-sm" href="{{ path('app_blog_edit_post', {'slug': post.slug}) }}">
+                    Modifier
+                </a>
+            </div>
+
+            <div class="m-1">
+                {{ include('blog/_delete_form.html.twig') }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="m-1">
+            <a class="btn btn-secondary btn-sm" href="{{ path('app_blog_index') }}"><i
+                    class="fa-solid fa-arrow-left"></i>
+                Retour à la liste</a>
+        </div>
     </div>
-</div>
+</section>
 
 {% endblock %}
