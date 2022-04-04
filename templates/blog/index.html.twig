@@ -21,7 +21,7 @@
         <tr>
             <td>{{ post.id }}</td>
             <td>{{ post.title }}</td>
-            <td>{{ post.content }}</td>
+            <td>{{ post.content|slice(0, 20) }} ... <a href="{{ path('app_blog_show_post', {'slug': post.slug}) }}">lire la suite</a></td>
             <td>{{ post.createdAt|date('Y-m-d H:i:s')}}</td>
             <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
@@ -46,5 +46,9 @@
     </tbody>
 </table>
 
-<a class="btn btn-primary btn-sm" href="{{ path('app_blog_new_post') }}">Nouvelle publication</a>
+{# {% if app.user %} #}
+    <a class="btn btn-primary btn-sm" href="{{ path('app_blog_new_post') }}">Nouvelle publication</a>
+{# {% endif %} #}
+
+
 {% endblock %}
