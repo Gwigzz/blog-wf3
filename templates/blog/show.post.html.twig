@@ -3,6 +3,38 @@
 {% block title %}Post{% endblock %}
 
 {% block body %}
+
+<!-- CSS Commentary -->
+<style>
+    .box-content-user-comment {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.1rem;
+    }
+
+    .box-img-user-comment {
+        padding: 0.1rem;
+    }
+
+    .box-img-user-comment img {
+        box-shadow: 3px 3px 5px #6c6c6c;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .box-infos-user-comment {
+        padding: 0;
+    }
+
+    .box-infos-user-comment span {
+        font-size: 14px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-style: italic;
+    }
+</style>
+
 <h1>Post</h1>
 
 <table class="table">
@@ -45,11 +77,12 @@
                 <div class="card-body">
                     <div class="box-content-user-comment">
                         <div class="box-img-user-comment">
-                            <img src="https://previews.123rf.com/images/fizkes/fizkes2007/fizkes200701872/152319944-.jpg?fj=1" alt="" />
+                            <img src="https://previews.123rf.com/images/fizkes/fizkes2007/fizkes200701872/152319944-.jpg?fj=1"
+                                alt="" />
                         </div>
                         <div class="box-infos-user-comment">
                             <span>
-                               par {{ comment.author.username }}
+                                par {{ comment.author.username }}
                             </span>
                             <span>le :
                                 {{ comment.author.createdAt|date('Y-m-d') }}
