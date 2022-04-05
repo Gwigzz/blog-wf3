@@ -11,10 +11,11 @@ git clone https://github.com/Gwigzz/blog-wf3.git
 #### Installation
 ```
 composer install
+npm install (pour la partie Webpack Encore)
 symfony console doctrine:database:create
 symfony console make:migration
 symfony console doctrine:migrations:migrate
-npm install (pour la partie Webpack Encore)
+symfony console doctrine:fixtures:load (pour nos fixtures)
 ```
 
 #### Webpack Encore (package.json)
@@ -32,4 +33,6 @@ npm install --save @fortawesome/fontawesome-free
 composer require symfony/webpack-encore-bundle
 composer require stof/doctrine-extensions-bundle (Slug)
 composer require symfony/rate-limiter (Limitation de tentatives de connexion)
+composer require --dev orm-fixtures
+composer require fakerphp/faker
 ```
