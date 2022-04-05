@@ -26,12 +26,16 @@
 
     .box-infos-user-comment {
         padding: 0;
+        text-align: center;
     }
 
     .box-infos-user-comment span {
         font-size: 14px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-style: italic;
+        padding: 0.1rem;
+        display: block;
+        color: rgb(96, 96, 96);
     }
 </style>
 
@@ -67,9 +71,9 @@
     <div>
 
         {% if post.comments|length > 0 %}
-            <h2 class="h4">Commentaires : <b>(<span>{{ post.comments|length }}</span>)</b></h2>
+        <h2 class="h4">Commentaires : <b>(<span>{{ post.comments|length }}</span>)</b></h2>
         {% else %}
-            <h2 class="h4">Aucun commentaire</h2>
+        <h2 class="h4">Aucun commentaire</h2>
         {% endif %}
 
         <div>
@@ -83,10 +87,10 @@
                         </div>
                         <div class="box-infos-user-comment">
                             <span>
-                                par {{ comment.author.username }}
+                                <b>{{ comment.author.username }}</b>
                             </span>
                             <span>le :
-                                {{ comment.author.createdAt|date('Y-m-d') }}
+                                <b>{{ comment.createdAt|date('d/m/Y à H\\hi') }}</b>
                             </span>
                         </div>
                     </div>

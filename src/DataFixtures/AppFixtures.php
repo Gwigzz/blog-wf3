@@ -12,9 +12,17 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class AppFixtures extends Fixture
 {
-    private const MAX_NOMBRE_PUBLICATION = 100;
+    /**
+     * insert in db with cli : symfony console doctrine:fixtures:load
+     */
+    // Configuration des constantes pour la création des éléments
+    private const MAX_USER = 47;
+    private const MAX_POST_PUBLICATION = 100;
+    private const MAX_POST_COMMENT = 20;
+
     private UserPasswordHasherInterface $hasher;
 
     public function __construct(UserPasswordHasherInterface $hasher)
@@ -54,20 +62,24 @@ class AppFixtures extends Fixture
             ->setEmail('u@u.u')
             ->setUsername('user')
             ->setPassword($this->hasher->hashPassword($user, 'u'));
+        // On persiste user
         $manager->persist($user);
 
         // Création de 10 comptes aléatoire ROLE_USER
-        for ($i = 1; $i < 10; $i++) {
+        for ($i = 1; $i < self::MAX_USER; $i++) {
             $user = new User();
             $user
                 ->setEmail($faker->email())
                 ->setUsername($faker->username())
                 ->setPassword($this->hasher->hashPassword($user, 'u'));
+            // On persiste user
             $manager->persist($user);
+            // On stock l'utilisateur dans un tableau
+            $users[] = $user;
         }
 
         // Création de 100 publications avec des données aléatoire (entre 0 et 10 par publication)
-        for ($i = 0; $i < self::MAX_NOMBRE_PUBLICATION; $i++) {
+        for ($i = 0; $i < self::MAX_POST_PUBLICATION; $i++) {
 
             // Création de post 
             $post = new Post();
@@ -76,13 +88,14 @@ class AppFixtures extends Fixture
             $post
                 ->setTitle($faker->realText(100))
                 ->setContent($faker->realText(1000))
-                ->setAuthor($blogger);
+                ->setAuthor($faker->randomElement($users));
+
 
             // On persiste la publication
             $manager->persist($post);
 
-            // Boucle de création des commentaire (entre 0 et 10)
-            $rand = rand(1, 10);
+            // Boucle de création des commentaires (entre 0 et 10)
+            $rand = rand(1, self::MAX_POST_COMMENT);
 
             for ($j = 0; $j < $rand; $j++) {
 
@@ -92,7 +105,8 @@ class AppFixtures extends Fixture
                 $comment
                     ->setContent($faker->realText(500))
                     ->setPost($post)
-                    ->setAuthor($admin);
+                    // On récupère aléatoirement un utilisateur dans le tableau $user
+                    ->setAuthor($faker->randomElement($users));
 
                 // On persiste le commentaire
                 $manager->persist($comment);
