@@ -4,10 +4,11 @@ namespace App\Form;
 
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PostType extends AbstractType
 {
@@ -15,8 +16,11 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
-           /*  ->add('comments') */
+            // ->add('content', TextareaType::class)
+            ->add('content', CKEditorType::class, [
+                // 'purify_html' => true,
+                'help' => '',
+            ])
             ;
     }
 

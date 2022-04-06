@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-// Import Register
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\PostRepository;
 use App\Repository\UserRepository;
+use Knp\Component\Pager\PaginatorInterface;
+// Import Register
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/', name: 'app_main_')]
@@ -21,7 +23,7 @@ class MainController extends AbstractController
     /**
      * Page Main
      */
-    #[Route('/', name: 'home')]
+    #[Route(path: '/', name: 'home')]
     public function index(PostRepository $postRepository): Response
     {
         // Dérnière publication sur la page d'accueil (5 max)
@@ -44,7 +46,7 @@ class MainController extends AbstractController
     /**
      * Inscription
      */
-    #[Route('/inscription', name: 'register')]
+    #[Route(path: '/inscription', name: 'register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserRepository $userRepository): Response
     {
 
@@ -109,5 +111,43 @@ class MainController extends AbstractController
         throw new \LogicException(
             'This method can be blank - it will be intercepted by the logout key on your firewall.'
         );
+    }
+
+    /**
+     * Recherche (Post & Title)
+     */
+    #[Route(path: '/recherche', name: 'search', methods: ['GET'])]
+    public function search(Request $request, PostRepository $postRepository, PaginatorInterface $paginatorInterface): Response
+    {
+        // On récupère le contenu du champ de recherche
+        $search = $request->query->get('search', '');
+        // condition si "$search" et vide ou pas
+        if (isset($search) && !empty($search)) {
+
+            // Création d'une requête avec le manager
+            $resultat_search = $postRepository->findBySearch($search);
+
+            // Systeme de pagination de résultat de recherche
+            // Récupération du numéro de la page demandée
+            $requestPage = $request->query->getInt('page', 1);
+            if ($requestPage < 1) {
+                throw new NotFoundHttpException();
+            }
+            $post_paginate = $paginatorInterface->paginate(
+                $resultat_search, // Requête de récupération
+                $requestPage,
+                6
+            );
+        } else {
+            $resultat_search = [];
+            $post_paginate = [];
+        }
+        return $this->render('blog/search.post.html.twig', [
+            'resultat_posts' => $resultat_search,
+            'resultat_pagination' => $post_paginate,
+        ]);
+
+        // Réponse -> envoyer une page contenant les éléments trouvés
+
     }
 }

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat de recherche{% endblock %}
+
+{% block body %}
+
+<h1>Résultat</h1>
+
+<div>
+    <div>
+        {% if resultat_posts %}
+        {# display navigation #}
+        <div class="navigation">
+            {{ knp_pagination_render(resultat_pagination) }}
+        </div>
+
+        <h2 class="h5">Nombre total de résultat <b>{{ resultat_posts|length }}</b></h2>
+        <div>
+            {% for result in resultat_pagination %}
+            <div class="m-2 w-75 p-1" style="border: 1px solid #CCC">
+                <p>{{ result.title }}</p>
+                <p>{{ result.content|slice(0, 500) ~ '....' }}</p>
+            </div>
+            {% endfor %}
+            {# {% else %}
+            <p>Aucun résultat pour cette recherche</p>
+            {% endfor %} #}
+        </div>
+        {% else %}
+        <p>Aucun résultat pour cette recherche</p>
+        {% endif %}
+
+
+
+    </div>
+</div>
+
+{% endblock %}

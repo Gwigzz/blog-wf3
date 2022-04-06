@@ -16,6 +16,8 @@ symfony console doctrine:database:create
 symfony console make:migration
 symfony console doctrine:migrations:migrate
 symfony console doctrine:fixtures:load (pour nos fixtures)
+symfony console checkedit:install (pour l'éditeur de formulaire pésonalisé)
+symfony console assets:install public (pour l'éditeur de forumaire personalisé (style))
 ```
 
 #### Webpack Encore (package.json)
@@ -36,5 +38,7 @@ composer require symfony/rate-limiter (Limitation de tentatives de connexion)
 composer require --dev orm-fixtures
 composer require fakerphp/faker
 composer require knplabs/knp-paginator-bundle
+composer require friendsofsymfony/ckeditor-bundle
+
 
 ```

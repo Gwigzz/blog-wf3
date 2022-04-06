@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-// #[Route('/comment')]
+#[Route('/comment')]
 class CommentController extends AbstractController
 {
-    /* #[Route('/', name: 'app_comment_index', methods: ['GET'])]
+    #[Route('/', name: 'app_comment_index', methods: ['GET'])]
     public function index(CommentRepository $commentRepository): Response
     {
         return $this->render('comment/index.html.twig', [
@@ -67,10 +67,10 @@ class CommentController extends AbstractController
     #[Route('/{id}', name: 'app_comment_delete', methods: ['POST'])]
     public function delete(Request $request, Comment $comment, CommentRepository $commentRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
             $commentRepository->remove($comment);
         }
 
         return $this->redirectToRoute('app_comment_index', [], Response::HTTP_SEE_OTHER);
-    } */
+    }
 }

@@ -178,9 +178,10 @@ class BlogController extends AbstractController
         ]);
     }
 
-    /**
+    /** [BLOGGER]
      * Supprésion d'un article
      */
+    #[IsGranted("ROLE_BLOGGER")]
     #[Route('/{id}', name: 'delete_post', methods: ['POST'])]
     public function deletePost(Request $request, Post $post, PostRepository $postRepository): Response
     {
@@ -191,6 +192,6 @@ class BlogController extends AbstractController
             $this->addFlash('success', 'publication Supprimé');
         }
 
-        return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_blog_index', []);
     }
 }

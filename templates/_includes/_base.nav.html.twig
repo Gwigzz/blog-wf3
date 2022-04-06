@@ -18,9 +18,9 @@
                 </a>
             </li>
             {% if is_granted('ROLE_BLOGGER') %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_blog_new_post') }}">Ajouter publication</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_blog_new_post') }}">Ajouter publication</a>
+            </li>
             {% else %}
             <li class="text-white">Not Role Blogger</li>
             {% endif %}
@@ -51,7 +51,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <span class="navbar-brand disabled">{{ app.user.username }}</span> 
+                <span class="navbar-brand disabled">{{ app.user.username }}</span>
             </li>
             {% else %}
             <li class="nav-item">
@@ -62,14 +62,16 @@
             </li>
             {% endif %}
         </ul>
-        <!-- search -->
-        {#      <div class="">
-            <div class="p-0 m-0 d-flex">
-                <div class="form-group">
-                    <input class="form-control me-sm-2" type="text" placeholder="Search">
+        <!-- search Form -->
+        <div class="">
+            <form action="{{ path('app_main_search') }}" method="GET">
+                <div class="p-0 m-0 d-flex">
+                    <div class="form-group">
+                        <input class="form-control me-sm-2" type="text" name="search" placeholder="Search">
+                    </div>
+                    <button class="btn btn-light my-2 my-sm-0" type="submit">Search</button>
                 </div>
-                <button class="btn btn-light my-2 my-sm-0" type="button">Search</button>
-            </div>
-        </div> #}
+            </form>
+        </div>
     </div>
 </div>
