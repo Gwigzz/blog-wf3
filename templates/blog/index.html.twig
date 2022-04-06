@@ -6,59 +6,52 @@
 <h1>Post index</h1>
 
 <div>
-    <p>Nombre total d'article (<b>{{ posts|length }}</b>)</p>
+    <p>Nombre total d'article (<b>{{ posts_paginate.getTotalItemCount }}</b>)</p>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Autheur</th>
-            <th>Titre</th>
-            <th>Content</th>
-            <th>Création</th>
-            <th>Modification</th>
-            <th>actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for post in posts %}
-        <tr>
-            <td>{{ post.id }}</td>
-            <td>{{ post.author.username }}</td>
-            <td>{{ post.title }}</td>
-            <td>{{ post.content|slice(0, 20) }} ... <a href="{{ path('app_blog_show_post', {'slug': post.slug}) }}">lire la suite</a></td>
-            <td>{{ post.createdAt|date('Y-m-d H:i:s')}}</td>
-            <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>
-                <div class="m-1">
-                    <!-- show article -->
-                    <a href="{{ path('app_blog_show_post', {'slug': post.slug}) }}" class="btn btn-secondary btn-sm">
-                        <i class="fa-solid fa-eye"></i>
-                    </a>
-                </div>
-                {# edit article #}
-                {% if is_granted('ROLE_ADMIN') %}
-                <div class="m-1">
-                    <a href="{{ path('app_blog_edit_post', {'slug': post.slug}) }}" class="btn btn-warning btn-sm">
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </a>
-                </div>
-                {% endif %}
-            </td>
+{# display navigation #}
+<div class="navigation">
+    {{ knp_pagination_render(posts_paginate) }}
+</div>
 
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="7">Aucun post pour le moment</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<div>
+    {% for post in posts_paginate %}
+    <div style="border: 1px solid #CCC;" class="m-1 p-1">
+        <p>{{ post.id }}</p>
+        <p>{{ post.author.username }}</p>
+        <p>{{ post.title }}</p>
+        <p>{{ post.content|slice(0, 20) }} ... <a href="{{ path('app_blog_show_post', {'slug': post.slug}) }}">lire
+                la suite</a></p>
+        <p>{{ post.createdAt|date('Y-m-d H:i:s')}}</p>
+        <p>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</p>
 
-{# {% if app.user %} #}
-    <a class="btn btn-primary btn-sm" href="{{ path('app_blog_new_post') }}">Nouvelle publication</a>
-{# {% endif %} #}
+        {#       <div class="m-1">
+            <!-- show article -->
+            <a href="{{ path('app_blog_show_post', {'slug': post.slug}) }}" class="btn btn-secondary btn-sm">
+                <i class="fa-solid fa-eye"></i>
+            </a>
+        </div> #}
+        {# edit article #}
+        {% if is_granted('ROLE_BLOGGER') %}
+        <div class="m-1">
+            <a href="{{ path('app_blog_edit_post', {'slug': post.slug}) }}" class="btn btn-warning btn-sm">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <div class="m-1">
+                {{ include('blog/_delete_form.html.twig') }}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <p>Aucun post pour le moment</p>
+    {% endfor %}
+</div>
+
+{% if is_granted('ROLE_BLOGGER') %}
+<a class="btn btn-primary btn-sm" href="{{ path('app_blog_new_post') }}">Nouvelle publication</a>
+{% endif %}
 
 
 {% endblock %}

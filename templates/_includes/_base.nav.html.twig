@@ -17,7 +17,14 @@
                     <i class="fa-solid fa-comments"></i> Blog
                 </a>
             </li>
-            <li class="nav-item">
+            {% if is_granted('ROLE_BLOGGER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_blog_new_post') }}">Ajouter publication</a>
+                </li>
+            {% else %}
+            <li class="text-white">Not Role Blogger</li>
+            {% endif %}
+            <li class="nav-item nav-item">
                 <a class="nav-link" href="{{ path('app_main_contact') }}">
                     <i class="fa-solid fa-message"></i> Contact
                 </a>

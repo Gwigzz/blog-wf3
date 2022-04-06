@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 // Import de la logique des slugs
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\HasLifecycleCallbacks] # Indique à doctrine pour gérer la date update automatiquement (un genre d'écouteur d'évènement)
@@ -20,6 +21,7 @@ class Post
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[NotBlank()]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
@@ -28,6 +30,7 @@ class Post
     private $slug;
 
     #[ORM\Column(type: 'text')]
+    #[NotBlank()]
     private $content;
 
     #[ORM\Column(type: 'datetime_immutable')]

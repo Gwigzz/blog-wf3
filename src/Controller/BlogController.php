@@ -8,30 +8,49 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[Route('/blog', name: 'app_blog_')]
 class BlogController extends AbstractController
 {
 
     /**
-     * Page principale
+     * Page principale du blog (avec pagination)
      */
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function indexBlog(PostRepository $postRepository): Response
+    public function indexBlog(PostRepository $postRepository, Request $request, PaginatorInterface $paginatorInterface): Response
     {
+
+        // Récupération du numéro de la page demandée
+        $requestPage = $request->query->getInt('page', 1);
+        if($requestPage < 1){ throw new NotFoundHttpException();}
+
+        // Requète pour ordonner les publications
+        $data = $postRepository->findBy([], ['createdAt' => 'desc']);
+
+        // Récupération des publications paginé
+        $posts = $paginatorInterface->paginate(
+            // Requête des publications paginées
+            $data,
+            $request->query->getInt('page' /* 'page' => Provient du 'knp_paginator.yaml'*/, 1), /*Numéro de la page demandé dans $request */
+            6 //Nombre de publication par page
+        );
+
         return $this->render('blog/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts_paginate' => $posts,
         ]);
     }
 
     /**
      * Creer une publication
      */
+    #[IsGranted('ROLE_BLOGGER', message: 'ROLE BLOGGER REQUIRED')]
     #[Route('/publier', name: 'new_post', methods: ['GET', 'POST'])]
     public function newPost(Request $request, PostRepository $postRepository): Response
     {
@@ -61,7 +80,7 @@ class BlogController extends AbstractController
      * Voir une publication
      */
     #[Route('/{slug}', name: 'show_post', methods: ['GET', 'POST'])]
-    public function showPost(Request $request, Post $post, CommentRepository $commentRepository): Response
+    public function showPost(Request $request, Post $post, CommentRepository $commentRepository, PostRepository $postRepository): Response
     {
 
         // Si utilisateur n'est pas connecté, 
@@ -94,6 +113,8 @@ class BlogController extends AbstractController
             ]);
         }
 
+        // $lastPost = $postRepository->findBy([],  ['createdAt' => 'desc']);
+
         return $this->renderForm('blog/show.post.html.twig', [
             'post' => $post,
             'form' => $form,
@@ -103,13 +124,13 @@ class BlogController extends AbstractController
     /**
      * Editer un article
      */
-    // #[IsGranted("ROLE_ADMIN")]
+    #[IsGranted("ROLE_BLOGGER")]
     #[Route('/{slug}/modifier-publication', name: 'edit_post', methods: ['GET', 'POST'])]
     public function editPost(Request $request, Post $post, PostRepository $postRepository): Response
     {
 
         // ADMIN ACCESS ONLY
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);

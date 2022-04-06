@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 // Import Register
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\PostRepository;
 use App\Repository\UserRepository;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,9 +22,14 @@ class MainController extends AbstractController
      * Page Main
      */
     #[Route('/', name: 'home')]
-    public function index(): Response
+    public function index(PostRepository $postRepository): Response
     {
-        return $this->render('main/main.html.twig', []);
+        // Dérnière publication sur la page d'accueil (5 max)
+        $posts = $postRepository->findBy([], ['createdAt' => 'desc'], 5);
+
+        return $this->render('main/main.html.twig', [
+            'posts' => $posts,
+        ]);
     }
 
     /**

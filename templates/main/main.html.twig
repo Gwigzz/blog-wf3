@@ -15,5 +15,18 @@
         </p>
     </div>
 
+    <div>
+        <h2>Dernière publication</h2>
+        <div>
+            {% for post in posts %}
+            <div>
+                <p>{{ post.title }}, {{ post.content|slice(0, 50) }}... par {{ post.author.username }}</p>
+                {% endfor %}
+            </div>
+            {# {{ dump(posts) }} #}
+            {# <p>{{ posts.title }}, {{ posts.content }} par {{ posts.author.username }}</p> #}
+        </div>
+    </div>
+
 </div>
 {% endblock %}
