@@ -20,10 +20,6 @@
                 <td>{{ user.username }}</td>
             </tr>
             <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
                 <th>Avatar</th>
                 <td>{{ user.avatar }}</td>
             </tr>
@@ -41,6 +37,15 @@
             </tr>
         </tbody>
     </table>
+
+    <div>
+        <h2>Commentaire</h2>
+        {% for comment in user.comments %}
+            {{ dump(comment) }}
+        {% endfor %}
+    </div>
+
+   {#  {{ dump(user.comments) }} #}
 
     <a href="{{ path('app_admin_index') }}">back to list</a>
 

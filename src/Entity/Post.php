@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 // Import de la logique des slugs
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
@@ -22,6 +23,7 @@ class Post
 
     #[ORM\Column(type: 'string', length: 100)]
     #[NotBlank()]
+    #[Length(min: 3, max: 100)]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
@@ -31,6 +33,7 @@ class Post
 
     #[ORM\Column(type: 'text')]
     #[NotBlank()]
+    #[Length(min: 3, max: 2500)]
     private $content;
 
     #[ORM\Column(type: 'datetime_immutable')]

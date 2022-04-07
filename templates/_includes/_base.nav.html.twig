@@ -21,8 +21,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_blog_new_post') }}">Ajouter publication</a>
             </li>
-            {% else %}
-            <li class="text-white">Not Role Blogger</li>
             {% endif %}
             <li class="nav-item nav-item">
                 <a class="nav-link" href="{{ path('app_main_contact') }}">
@@ -50,9 +48,15 @@
                     Déconnexion
                 </a>
             </li>
-            <li class="nav-item">
+           {#  <li class="nav-item">
                 <span class="navbar-brand disabled">{{ app.user.username }}</span>
+            </li> #}
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                    <a href="{{ path('app_admin_index') }}" class="nav-link">Admin</a>
             </li>
+            {% endif %}
+
             {% else %}
             <li class="nav-item">
                 <a href="{{ path('app_main_login') }}" class="nav-link">

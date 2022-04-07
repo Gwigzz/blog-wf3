@@ -16,11 +16,11 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            // ->add('content', TextareaType::class)
-            ->add('content', CKEditorType::class, [
+            ->add('content', TextareaType::class)
+           /*  ->add('content', CKEditorType::class, [
                 // 'purify_html' => true,
                 'help' => '',
-            ])
+            ]) */
             ;
     }
 

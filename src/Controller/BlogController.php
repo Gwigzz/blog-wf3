@@ -124,8 +124,8 @@ class BlogController extends AbstractController
     /**
      * Editer un article
      */
-    #[IsGranted("ROLE_BLOGGER")]
-    #[Route('/{slug}/modifier-publication', name: 'edit_post', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/modifier/{slug}', name: 'edit_post', methods: ['GET', 'POST'])]
     public function editPost(Request $request, Post $post, PostRepository $postRepository): Response
     {
 
@@ -181,8 +181,8 @@ class BlogController extends AbstractController
     /** [BLOGGER]
      * Supprésion d'un article
      */
-    #[IsGranted("ROLE_BLOGGER")]
-    #[Route('/{id}', name: 'delete_post', methods: ['POST'])]
+    #[IsGranted("ROLE_ADMIN")]
+    #[Route('/admin/suppression-publication/{id}', name: 'delete_post', methods: ['POST'])]
     public function deletePost(Request $request, Post $post, PostRepository $postRepository): Response
     {
         if ($this->isCsrfTokenValid('mon_joli_block' . $post->getId(), $request->request->get('_token'))) {
