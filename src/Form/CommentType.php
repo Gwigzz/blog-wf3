@@ -20,6 +20,7 @@ class CommentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
+            'required' => false,
         ]);
     }
 }

@@ -3,17 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Contact;
+use App\Form\ContactType;
+use Symfony\Component\Mime\Email;
 use App\Form\RegistrationFormType;
 use App\Repository\PostRepository;
+// Import Register
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
-// Import Register
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -38,9 +42,46 @@ class MainController extends AbstractController
      * Page Contact
      */
     #[Route('/contact', name: 'contact')]
-    public function contact(): Response
+    public function contact(Request $request, MailerInterface $mailer): Response
     {
-        return $this->render('main/contact.html.twig', []);
+
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Récupération des données du formulaire
+            $datasForm = $form->getData();
+
+            // Si téléphone pas renseigné, on traite
+            $phone = $datasForm['telephone'] ? $datasForm['telephone'] : 'téléphone non renseigné';
+
+            // Création du message
+            $email = (new Email())
+                ->from('blog@email.fr')
+                ->to('jhonguetter199@hotmail.fr')
+                ->subject('Email reçus de ' . $datasForm['username'] . '')
+                ->html(
+                    '<p>Téléphone : '       . $phone . '</p>
+                    <p>Prénom : '           . $datasForm['username'] . '</p>
+                    <p>Email :'             . $datasForm['email'] . '</p>
+                    <p style="color: #0C91FF"><b>Message</b> : ' . $datasForm['message'] . '</p>
+                    '
+                );
+
+            // Try to send you'r mail
+            try {
+                $mailer->send($email);
+                $this->addFlash('success', 'message envoyé');
+            } catch (TransportExceptionInterface $e) {
+                $this->addFlash('warning', 'Une erreur est survenue, merci de réessayer');
+            }
+            return $this->redirectToRoute('app_main_contact');
+        }
+
+        return $this->renderForm('main/contact.html.twig', [
+            'contact_form' => $form,
+        ]);
     }
 
     /**

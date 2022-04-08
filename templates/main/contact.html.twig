@@ -5,9 +5,18 @@
 {% block body %}
 
 <div>
-    <h1>Contact</h1>
-    
+    <h1>Contactez Nous !</h1>
+
     <div>
+        {{ form_start(contact_form) }}
+        {{ form_widget(contact_form) }}
+        <div class="form-group m-2">
+            <button class="btn btn-primary btn-sm">Envoyer mon message</button>
+        </div>
+        {{ form_end(contact_form) }}
+    </div>
+
+    <div class="m-2 mt-5">
         <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis rem optio accusamus deleniti. Quis ipsa
             sequi quaerat eveniet pariatur, cupiditate cumque provident voluptatem quibusdam, odio reiciendis laboriosam
